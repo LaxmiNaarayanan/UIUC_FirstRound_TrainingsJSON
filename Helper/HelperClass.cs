@@ -9,9 +9,28 @@ using UIUC_FirstRound_TrainingsJSON.Models;
 
 namespace UIUC_FirstRound_TrainingsJSON.Helper
 {
-    enum expiration { expired = 0, expiresSoon = 1, notExpired = 2, noExpirationAvailable = 3 };
+    enum expiration { expired = 0, expiresSoon = 1, notExpiredOrNoExpirationAvailable = 2 };
     internal static class HelperClass
     {
+        // Fiscal Year is read from the InputConfig.xml
+        public static string fiscalYear = null;
+
+        // expirationDate is read from the InputConfig.xml
+        public static string expirationDate = null;
+
+        /* Set the Projects Configuration Values: Default Values - { FY = "2024", Expiration Date = "Oct 1st, 2023" }
+         * Change the Default Values at InputConfig.xml
+         */
+        public static void setConfigValue()
+        {
+            XDocument inputConfig = XDocument.Load("C:\\Users\\laxmi\\Desktop\\Interviews\\UIUC\\UIUC_FirstRound_TrainingsJSON\\InputConfig.xml");
+            XElement trainingConfigRoot = inputConfig.Element("trainingConfigRoot");
+            XElement FYElement = trainingConfigRoot.Element("FY");
+            XElement ExpirationDateElement = trainingConfigRoot.Element("ExpirationDate");
+
+            fiscalYear = FYElement.Value;
+            expirationDate = ExpirationDateElement.Value;
+        }
         
         // returns a list of all the training tags available
         public static List<string> getTrainingTagList(List<PersonCompletions> Persons)
@@ -39,8 +58,9 @@ namespace UIUC_FirstRound_TrainingsJSON.Helper
         // Checks if the given date lies in the Fiscal Year
         public static bool isPresentInSelectedFiscalYear(string date)
         {
-            DateTime startDate = new DateTime(2023, 7, 1);
-            DateTime endDate = new DateTime(2024, 6, 30);
+            int FY = int.Parse(fiscalYear);
+            DateTime startDate = new DateTime(FY - 1, 7, 1);
+            DateTime endDate = new DateTime(FY, 6, 30);
             DateTime selectedDate = DateTime.Parse(date);
             if (selectedDate >= startDate && selectedDate <= endDate)
             {
@@ -52,15 +72,13 @@ namespace UIUC_FirstRound_TrainingsJSON.Helper
         // Get the Expiration Info in Enum for the given date
         public static expiration getExpirationInfo(string date)
         {
-            XDocument inputConfig = XDocument.Load("C:\\Users\\laxmi\\Desktop\\Interviews\\UIUC\\UIUC_FirstRound_TrainingsJSON\\InputConfig.xml");
-            //string val = inputConfig();
-            DateTime expiryDate = new DateTime(2023, 10, 1);
-            DateTime expireSoonDate = new DateTime(2023, 9, 1);
             if(date == null)
-            {
-                return expiration.noExpirationAvailable;
-            }
+                return expiration.notExpiredOrNoExpirationAvailable;
+            DateTime expiryDate = DateTime.Parse(expirationDate);
+            DateTime expireSoonDate = new DateTime(2023, expiryDate.Month - 1, 1);
+            
             DateTime completionDate = DateTime.Parse(date);
+
             if (completionDate > expiryDate)
             {
                 return expiration.expired;
@@ -71,8 +89,9 @@ namespace UIUC_FirstRound_TrainingsJSON.Helper
             }
             else
             {
-                return expiration.notExpired;
+                return expiration.notExpiredOrNoExpirationAvailable;
             }
         }
+
     }
 }

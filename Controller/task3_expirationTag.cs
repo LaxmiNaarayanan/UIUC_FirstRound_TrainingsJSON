@@ -54,10 +54,16 @@ namespace UIUC_FirstRound_TrainingsJSON.Controller
                     foreach ((string tag, Completion completion) in visited)
                     {
                         expiration expirationStatus = HelperClass.getExpirationInfo(completion.expires);
+                        if (expirationStatus == expiration.notExpiredOrNoExpirationAvailable)
+                            continue;
                         trainingExpirationList.TryGetValue(person.name, out List<KeyValuePair<string, expiration>> expirationList);
                         KeyValuePair<string, expiration> pair = new KeyValuePair<string, expiration>(tag, expirationStatus);
                         expirationList.Add(pair);
                         trainingExpirationList[person.name] = expirationList;
+                    }
+                    if(trainingExpirationList[person.name].Count == 0)
+                    {
+                        trainingExpirationList.Remove(person.name);
                     }
                 }
             }

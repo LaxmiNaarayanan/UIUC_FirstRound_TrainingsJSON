@@ -14,20 +14,23 @@ namespace UIUC_FirstRound
     {
         static void Main(string[] args)
         {
+            // Set the Configuration Values: Default Values - { FY = "2024", Expiration Date = "Oct 1st, 2023" } 
+            HelperClass.setConfigValue();
+
             string filePath = "C:\\Users\\laxmi\\source\\repos\\UIUC_FirstRound_TrainingsJSON\\InputFiles\\trainings.txt";
             string json = File.ReadAllText(filePath);
             List<PersonCompletions>? Persons = JsonSerializer.Deserialize<List<PersonCompletions>>(json);
 
-            task1_trainingTags.invokeTask1(Persons);
+            //task1_trainingTags.invokeTask1(Persons);
 
-            Console.WriteLine("Press any key to continue!");
-            Console.ReadKey();
+            //Console.WriteLine("Press any key to continue!");
+            //Console.ReadKey();
 
-            List<string> trainingList = new List<string>() { "Electrical Safety for Labs", "X-Ray Safety", "Laboratory Safety Training" };
-            task2_peopleListForFiscalYear.invokeTask2(Persons, trainingList, "2024");
+            //List<string> trainingList = new List<string>() { "Electrical Safety for Labs", "X-Ray Safety", "Laboratory Safety Training" };
+            //task2_peopleListForFiscalYear.invokeTask2(Persons, trainingList, "2024");
 
-            Console.WriteLine("Press any key to continue!");
-            Console.ReadKey();
+            //Console.WriteLine("Press any key to continue!");
+            //Console.ReadKey();
 
             task3_expirationTag.invokeTask3(Persons);
 
