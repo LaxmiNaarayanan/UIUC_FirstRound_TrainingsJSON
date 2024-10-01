@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using UIUC_FirstRound_TrainingsJSON.Helper;
 using UIUC_FirstRound_TrainingsJSON.Models;
@@ -40,8 +42,12 @@ namespace UIUC_FirstRound_TrainingsJSON.Controller
                 }
             }
 
+            // Serialize trainingTags object to output1.json
+            string jsonString = JsonSerializer.Serialize(trainingTags, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText("C:\\Users\\laxmi\\Desktop\\Interviews\\UIUC\\UIUC_FirstRound_TrainingsJSON\\Output\\output1.json", jsonString);
 
-            Console.WriteLine("Training Tags with their person count \n\n");
+            // Print Output1:
+            Console.WriteLine("\nTraining Tags with their person count \n\n");
             foreach ((String tag, int ct) in trainingTags)
             {
                 Console.WriteLine("Training Tag - " + tag + ", Count - " + ct + "\n");

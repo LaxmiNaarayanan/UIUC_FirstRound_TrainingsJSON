@@ -18,14 +18,20 @@ namespace UIUC_FirstRound
             string json = File.ReadAllText(filePath);
             List<PersonCompletions>? Persons = JsonSerializer.Deserialize<List<PersonCompletions>>(json);
 
-            //task1_trainingTags.invokeTask1(Persons);
+            task1_trainingTags.invokeTask1(Persons);
 
-            //List<string> trainingList = new List<string>() { "Electrical Safety for Labs", "X-Ray Safety", "Laboratory Safety Training" };
-            //task2_peopleListForFiscalYear.invokeTask2(Persons, trainingList, "2024");
+            Console.WriteLine("Press any key to continue!");
+            Console.ReadKey();
+
+            List<string> trainingList = new List<string>() { "Electrical Safety for Labs", "X-Ray Safety", "Laboratory Safety Training" };
+            task2_peopleListForFiscalYear.invokeTask2(Persons, trainingList, "2024");
+
+            Console.WriteLine("Press any key to continue!");
+            Console.ReadKey();
+
+            task3_expirationTag.invokeTask3(Persons);
 
             //HelperClass.isPresentInSelectedFiscalYear("10/30/2023");
-
-
 
         }
     }
