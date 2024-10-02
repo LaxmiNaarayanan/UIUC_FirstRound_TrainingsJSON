@@ -15,21 +15,48 @@ namespace UIUC_FirstRound_TrainingsJSON.Helper
         // Fiscal Year is read from the InputConfig.xml
         public static string fiscalYear = null;
 
-        // expirationDate is read from the InputConfig.xml
-        public static string expirationDate = null;
+        // expiryDateLimit is read from the InputConfig.xml
+        public static string expiryDateLimit = null;
+
+        // set the trainings.txt file path in trainingTextPath
+        public static string trainingTextPath = null;
+
+        // set the InputConfig.xml file path in inputConfigFilePath
+        public static string inputConfigFilePath = null;
+
+        // set the baseDirectory path for the project
+        public static string baseDirectory = null;
+
+        // set the List of training tags from InputConfig.xml - for task2
+        public static List<string> trainingList = new List<string>();
+
+        // set file paths for trainings.txt and InputConfig.xml
+        public static void setFilePaths()
+        {
+            // trainingTextPath = "C:\\Users\\laxmi\\source\\repos\\UIUC_FirstRound_TrainingsJSON\\InputFiles\\trainings.txt";
+            baseDirectory = AppDomain.CurrentDomain.BaseDirectory + "..\\..\\..\\";
+            trainingTextPath = baseDirectory + "trainings.txt";
+            inputConfigFilePath = baseDirectory + "InputConfig.xml";
+        }
 
         /* Set the Projects Configuration Values: Default Values - { FY = "2024", Expiration Date = "Oct 1st, 2023" }
          * Change the Default Values at InputConfig.xml
          */
         public static void setConfigValue()
         {
-            XDocument inputConfig = XDocument.Load("C:\\Users\\laxmi\\Desktop\\Interviews\\UIUC\\UIUC_FirstRound_TrainingsJSON\\InputConfig.xml");
+            XDocument inputConfig = XDocument.Load(inputConfigFilePath);
             XElement trainingConfigRoot = inputConfig.Element("trainingConfigRoot");
             XElement FYElement = trainingConfigRoot.Element("FY");
-            XElement ExpirationDateElement = trainingConfigRoot.Element("ExpirationDate");
+            XElement expiryDateLimitElement = trainingConfigRoot.Element("expiryDateLimit");
+
+            XElement TrainingTags = trainingConfigRoot.Element("TrainingTags");
+            foreach(XElement trainingTag in TrainingTags.Elements())
+            {
+                trainingList.Add(trainingTag.Value);
+            }
 
             fiscalYear = FYElement.Value;
-            expirationDate = ExpirationDateElement.Value;
+            expiryDateLimit = expiryDateLimitElement.Value;
         }
         
         // returns a list of all the training tags available
@@ -55,7 +82,7 @@ namespace UIUC_FirstRound_TrainingsJSON.Helper
             return trainingTags;
         }
 
-        // Checks if the given date lies in the Fiscal Year
+        // Checks if the given expiryDate lies in the Fiscal Year
         public static bool isPresentInSelectedFiscalYear(string date)
         {
             int FY = int.Parse(fiscalYear);
@@ -69,21 +96,21 @@ namespace UIUC_FirstRound_TrainingsJSON.Helper
             return false;
         }
 
-        // Get the Expiration Info in Enum for the given date
-        public static expiration getExpirationInfo(string date)
+        // Get the Expiration Info in Enum for the given Completion_Expiry_Date
+        public static expiration getExpirationInfo(string expiryDate)
         {
-            if(date == null)
+            if(expiryDate == null)
                 return expiration.notExpiredOrNoExpirationAvailable;
-            DateTime expiryDate = DateTime.Parse(expirationDate);
-            DateTime expireSoonDate = new DateTime(2023, expiryDate.Month - 1, 1);
+            DateTime expiryDateLimitDT = DateTime.Parse(expiryDateLimit);
+            DateTime expireSoonLowerLimitDT = new DateTime(2023, expiryDateLimitDT.Month - 1, 1);
             
-            DateTime completionDate = DateTime.Parse(date);
+            DateTime completionExpiryDate = DateTime.Parse(expiryDate);
 
-            if (completionDate > expiryDate)
+            if (completionExpiryDate > expiryDateLimitDT)
             {
                 return expiration.expired;
             }
-            else if (completionDate < expiryDate && completionDate > expireSoonDate)
+            else if (completionExpiryDate < expiryDateLimitDT && completionExpiryDate > expireSoonLowerLimitDT)
             {
                 return expiration.expiresSoon;
             }

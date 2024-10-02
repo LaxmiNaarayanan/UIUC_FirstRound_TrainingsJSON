@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using UIUC_FirstRound_TrainingsJSON.Helper;
 using UIUC_FirstRound_TrainingsJSON.Models;
 
-namespace UIUC_FirstRound_TrainingsJSON.Controller
+namespace UIUC_FirstRound_TrainingsJSON.Business
 {
     internal static class task3_expirationTag
     {
@@ -19,14 +19,6 @@ namespace UIUC_FirstRound_TrainingsJSON.Controller
             // The Dictionary has Key = "Person Name", Value = "List of KeyValuePairs<tag, expirationStatus>"
             Dictionary<string, List<KeyValuePair<string, expiration>>> trainingExpirationList =
                 new Dictionary<string, List<KeyValuePair<string, expiration>>>();
-
-            foreach (PersonCompletions personCompletion in Persons)
-            {
-                if (personCompletion?.name != null)
-                {
-                    trainingExpirationList.Add(personCompletion.name, new List<KeyValuePair<string, expiration>>());
-                }
-            }
 
             foreach (PersonCompletions person in Persons)
             {
@@ -51,19 +43,19 @@ namespace UIUC_FirstRound_TrainingsJSON.Controller
                             }
                         }
                     }
+                    List<KeyValuePair<string, expiration>> expirationList = new List<KeyValuePair<string, expiration>>();
                     foreach ((string tag, Completion completion) in visited)
                     {
                         expiration expirationStatus = HelperClass.getExpirationInfo(completion.expires);
                         if (expirationStatus == expiration.notExpiredOrNoExpirationAvailable)
                             continue;
-                        trainingExpirationList.TryGetValue(person.name, out List<KeyValuePair<string, expiration>> expirationList);
+
                         KeyValuePair<string, expiration> pair = new KeyValuePair<string, expiration>(tag, expirationStatus);
                         expirationList.Add(pair);
-                        trainingExpirationList[person.name] = expirationList;
                     }
-                    if(trainingExpirationList[person.name].Count == 0)
+                    if(expirationList.Count > 0)
                     {
-                        trainingExpirationList.Remove(person.name);
+                        trainingExpirationList.Add(person.name, expirationList);
                     }
                 }
             }

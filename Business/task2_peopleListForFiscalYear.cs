@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 using UIUC_FirstRound_TrainingsJSON.Helper;
 using UIUC_FirstRound_TrainingsJSON.Models;
 
-namespace UIUC_FirstRound_TrainingsJSON.Controller
+namespace UIUC_FirstRound_TrainingsJSON.Business
 {
     internal static class task2_peopleListForFiscalYear
     {
-        public static void invokeTask2(List<PersonCompletions> Persons, List<string> trainingList, string FiscalYear)
+        public static void invokeTask2(List<PersonCompletions> Persons)
         {
             List<string> trainingTagList = HelperClass.getTrainingTagList(Persons);
 
             /* A Dictionary with key = "Training Tag", Value = "list of people who are assigned 
              * with the training in the given Fiscal Year" */
             Dictionary<string, List<string>> trainingTagsPeopleList = new Dictionary<string, List<string>>();
-            foreach (string trainingTag in trainingList)
+            foreach (string trainingTag in HelperClass.trainingList)
             {
                 trainingTagsPeopleList.Add(trainingTag, new List<string>());
             }
@@ -31,7 +31,7 @@ namespace UIUC_FirstRound_TrainingsJSON.Controller
                 {
                     foreach (Completion completion in person.completions)
                     {
-                        if (completion?.name != null && trainingList.Contains(completion.name) && completion?.timestamp != null)
+                        if (completion?.name != null && HelperClass.trainingList.Contains(completion.name) && completion?.timestamp != null)
                         {
                             if (visited.ContainsKey(completion.name) == true)
                             {

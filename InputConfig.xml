@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <trainingConfigRoot>
   <FY>2024</FY>
+  <TrainingTags>
+    <TrainingTag>Electrical Safety for Labs</TrainingTag>
+    <TrainingTag>X-Ray Safety</TrainingTag>
+    <TrainingTag>Laboratory Safety Training</TrainingTag>
+  </TrainingTags>
   <!-- date formate : YYYY-MM-DD -->
-  <ExpirationDate>2023-10-01</ExpirationDate>
+  <expiryDateLimit>2023-10-01</expiryDateLimit>
 </trainingConfigRoot>

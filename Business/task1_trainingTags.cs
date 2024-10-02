@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using UIUC_FirstRound_TrainingsJSON.Helper;
 using UIUC_FirstRound_TrainingsJSON.Models;
 
-namespace UIUC_FirstRound_TrainingsJSON.Controller
+namespace UIUC_FirstRound_TrainingsJSON.Business
 {
     internal static class task1_trainingTags
     {
