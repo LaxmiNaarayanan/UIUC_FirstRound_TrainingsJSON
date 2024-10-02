@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace UIUC_FirstRound_TrainingsJSON.Models
 {
     public class PersonCompletions

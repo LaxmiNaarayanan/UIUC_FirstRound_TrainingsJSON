@@ -16,14 +16,14 @@ Business folder - has three classes containing the functionaties for the tasks
 	
 Models - model class to store the trainings.txt data
        - 1) Completion - Contains all the information related to a single completion
-	   - 2) PersonCompletions - Contains all the Completions assigned to a given person
+	    - 2) PersonCompletions - Contains all the Completions assigned to a given person
  
 HelperClass - Contains all the helper funtions needed to execute the different tasks
 
 Output Folfer - Has output files in JSON formate for each task.
 
-InputConfig.XML - Has all the config data for the tasks 
-				- 1) FY - Fiscal Year for Task2
+InputConfig.xml - Has all the config data for the tasks (Default Values can be changed here)
+			 	- 1) FY - Fiscal Year for Task2
 				- 2) TrainingTags - Training Tags List for Task2
 				- 3) expiryDateLimit - expiry Date Limit for Task3
 

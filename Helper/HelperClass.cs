@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 using UIUC_FirstRound_TrainingsJSON.Models;
 
@@ -85,6 +81,8 @@ namespace UIUC_FirstRound_TrainingsJSON.Helper
         // Checks if the given expiryDate lies in the Fiscal Year
         public static bool isPresentInSelectedFiscalYear(string date)
         {
+            if(date == null) return false;
+
             int FY = int.Parse(fiscalYear);
             DateTime startDate = new DateTime(FY - 1, 7, 1);
             DateTime endDate = new DateTime(FY, 6, 30);

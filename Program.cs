@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 using UIUC_FirstRound_TrainingsJSON.Business;
 using UIUC_FirstRound_TrainingsJSON.Helper;
@@ -20,20 +19,20 @@ namespace UIUC_FirstRound
             
             // Read all data from training.txt
             string json = File.ReadAllText(HelperClass.trainingTextPath);
-            List<PersonCompletions>? Persons = JsonSerializer.Deserialize<List<PersonCompletions>>(json);
+            List<PersonCompletions>? personsCompletions = JsonSerializer.Deserialize<List<PersonCompletions>>(json);
 
-            task1_trainingTags.invokeTask1(Persons);
+            task1_trainingTags.invokeTask1(personsCompletions);
 
             Console.WriteLine("Press any key to continue!");
             Console.ReadKey();
 
             List<string> trainingList = new List<string>() { "Electrical Safety for Labs", "X-Ray Safety", "Laboratory Safety Training" };
-            task2_peopleListForFiscalYear.invokeTask2(Persons);
+            task2_peopleListForFiscalYear.invokeTask2(personsCompletions);
 
             Console.WriteLine("Press any key to continue!");
             Console.ReadKey();
 
-            task3_expirationTag.invokeTask3(Persons);
+            task3_expirationTag.invokeTask3(personsCompletions);
         }
     }
 }
